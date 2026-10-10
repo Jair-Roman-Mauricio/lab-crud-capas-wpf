@@ -1,0 +1,7 @@
+<Window x:Class="Presentacion.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:v="clr-namespace:Presentacion.Vistas"
+        Title="Sección B · CRUD de Productos" Height="560" Width="900" WindowStartupLocation="CenterScreen">
+    <v:ProductosView Margin="8"/>
+</Window>

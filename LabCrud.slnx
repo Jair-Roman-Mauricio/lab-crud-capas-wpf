@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Datos/Datos.csproj" />
+    <Project Path="src/Entidades/Entidades.csproj" />
+    <Project Path="src/Negocio/Negocio.csproj" />
+    <Project Path="src/Presentacion/Presentacion.csproj" />
+    <Project Path="src/Pruebas/Pruebas.csproj" />
+  </Folder>
+</Solution>
