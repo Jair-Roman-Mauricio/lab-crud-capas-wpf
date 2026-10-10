@@ -26,12 +26,31 @@ public class ProductoDatos
     public bool Eliminar(int id) =>
         Escalar("dbo.sp_Producto_Eliminar", c => c.Parameters.AddWithValue("@IdProducto", id)) > 0;
 
+    public List<ResumenCategoria> ResumenPorCategoria()
+    {
+        var lista = new List<ResumenCategoria>();
+        using var cn = Conexion.Crear();
+        using var cmd = Conexion.Sp(cn, "dbo.sp_Producto_ResumenPorCategoria");
+        cn.Open();
+        using var dr = cmd.ExecuteReader();
+        while (dr.Read())
+            lista.Add(new ResumenCategoria
+            {
+                Categoria = dr.GetString(0),
+                CantidadProductos = dr.GetInt32(1),
+                StockTotal = dr.GetInt32(2),
+                ValorInventario = dr.GetDecimal(3)
+            });
+        return lista;
+    }
+
     private static void Llenar(SqlCommand c, Producto p)
     {
         c.Parameters.AddWithValue("@Nombre", p.Nombre);
         c.Parameters.AddWithValue("@Descripcion", (object?)p.Descripcion ?? DBNull.Value);
         c.Parameters.AddWithValue("@Precio", p.Precio);
         c.Parameters.AddWithValue("@Stock", p.Stock);
+        c.Parameters.AddWithValue("@IdCategoria", p.IdCategoria);
     }
 
     private static int Escalar(string sp, Action<SqlCommand> parametros)
@@ -60,7 +79,9 @@ public class ProductoDatos
                 Precio = dr.GetDecimal(3),
                 Stock = dr.GetInt32(4),
                 Estado = dr.GetBoolean(5),
-                FechaEliminacion = dr.FieldCount > 6 && !dr.IsDBNull(6) ? dr.GetDateTime(6) : null
+                IdCategoria = dr.GetInt32(6),
+                Categoria = dr.GetString(7),
+                FechaEliminacion = dr.IsDBNull(8) ? null : dr.GetDateTime(8)
             });
         return lista;
     }

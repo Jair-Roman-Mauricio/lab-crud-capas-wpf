@@ -2,6 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:v="clr-namespace:Presentacion.Vistas"
-        Title="Sección B · CRUD de Productos" Height="560" Width="900" WindowStartupLocation="CenterScreen">
-    <v:ProductosView Margin="8"/>
+        Title="Sección B · CRUD de Productos" Height="600" Width="940" WindowStartupLocation="CenterScreen">
+    <TabControl Margin="8">
+        <TabItem Header="Productos"><v:ProductosView/></TabItem>
+        <TabItem Header="Resumen por categoría"><v:ResumenView/></TabItem>
+    </TabControl>
 </Window>

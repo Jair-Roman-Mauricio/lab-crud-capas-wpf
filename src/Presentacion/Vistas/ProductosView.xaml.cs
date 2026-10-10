@@ -9,13 +9,20 @@ namespace Presentacion.Vistas;
 public partial class ProductosView : UserControl
 {
     private readonly ProductoNegocio _negocio = new();
+    private readonly CategoriaNegocio _categorias = new();
     private int _id;
     private bool _papelera;
 
     public ProductosView()
     {
         InitializeComponent();
-        Loaded += (_, _) => Cargar();
+        Loaded += (_, _) => { CargarCategorias(); Cargar(); };
+    }
+
+    private void CargarCategorias()
+    {
+        try { cboCategoria.ItemsSource = _categorias.Listar(); }
+        catch (Exception ex) { Error(ex); }
     }
 
     private void Cargar()
@@ -30,7 +37,7 @@ public partial class ProductosView : UserControl
     {
         if (grid.SelectedItem is not Producto p) return;
         _id = p.IdProducto;
-        txtNombre.Text = p.Nombre; txtDescripcion.Text = p.Descripcion;
+        txtNombre.Text = p.Nombre; txtDescripcion.Text = p.Descripcion; cboCategoria.SelectedValue = p.IdCategoria;
         txtPrecio.Text = p.Precio.ToString(CultureInfo.CurrentCulture); txtStock.Text = p.Stock.ToString();
     }
 
@@ -44,7 +51,8 @@ public partial class ProductosView : UserControl
                 throw new ArgumentException("El stock debe ser un número entero.");
             _negocio.Guardar(new Producto
             {
-                IdProducto = _id, Nombre = txtNombre.Text, Descripcion = txtDescripcion.Text, Precio = precio, Stock = stock
+                IdProducto = _id, Nombre = txtNombre.Text, Descripcion = txtDescripcion.Text, Precio = precio, Stock = stock,
+                IdCategoria = cboCategoria.SelectedValue is int idc ? idc : 0
             });
             Limpiar(); Cargar();
         }
@@ -83,7 +91,7 @@ public partial class ProductosView : UserControl
     private void Limpiar()
     {
         _id = 0; grid.SelectedItem = null;
-        txtNombre.Clear(); txtDescripcion.Clear(); txtPrecio.Clear(); txtStock.Clear();
+        txtNombre.Clear(); txtDescripcion.Clear(); cboCategoria.SelectedIndex = -1; txtPrecio.Clear(); txtStock.Clear();
     }
 
     private static void Error(Exception ex) => MessageBox.Show(ex.Message, "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);

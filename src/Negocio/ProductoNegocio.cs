@@ -15,6 +15,8 @@ public class ProductoNegocio
     public List<Producto> ListarEliminados(string? texto) =>
         _datos.ListarEliminados(string.IsNullOrWhiteSpace(texto) ? null : texto.Trim());
 
+    public List<ResumenCategoria> ResumenPorCategoria() => _datos.ResumenPorCategoria();
+
     public void Restaurar(int id)
     {
         if (!_datos.Restaurar(id)) throw new InvalidOperationException("El producto no existe o no está eliminado.");
@@ -26,6 +28,7 @@ public class ProductoNegocio
         if (p.Nombre.Length == 0) throw new ArgumentException("El nombre es obligatorio.");
         if (p.Precio < 0) throw new ArgumentException("El precio no puede ser negativo.");
         if (p.Stock < 0) throw new ArgumentException("El stock no puede ser negativo.");
+        if (p.IdCategoria <= 0) throw new ArgumentException("Seleccione una categoría.");
         if (p.IdProducto == 0) return _datos.Insertar(p);
         if (!_datos.Actualizar(p)) throw new InvalidOperationException("El producto no existe o fue eliminado.");
         return p.IdProducto;

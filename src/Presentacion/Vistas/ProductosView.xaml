@@ -19,6 +19,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding IdProducto}" Width="40"/>
                 <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}" Width="*"/>
+                <DataGridTextColumn Header="Categoría" Binding="{Binding Categoria}" Width="100"/>
                 <DataGridTextColumn Header="Descripción" Binding="{Binding Descripcion}" Width="*"/>
                 <DataGridTextColumn Header="Precio" Binding="{Binding Precio, StringFormat=N2}" Width="90"/>
                 <DataGridTextColumn Header="Stock" Binding="{Binding Stock}" Width="70"/>
@@ -28,6 +29,7 @@
         <StackPanel Grid.Column="1" Grid.RowSpan="2" Margin="12,0,0,0">
             <TextBlock Text="Nombre"/><TextBox x:Name="txtNombre"/>
             <TextBlock Text="Descripción"/><TextBox x:Name="txtDescripcion"/>
+            <TextBlock Text="Categoría"/><ComboBox x:Name="cboCategoria" DisplayMemberPath="Nombre" SelectedValuePath="IdCategoria" Margin="0,2,0,8" Padding="4"/>
             <TextBlock Text="Precio"/><TextBox x:Name="txtPrecio"/>
             <TextBlock Text="Stock"/><TextBox x:Name="txtStock"/>
             <Button x:Name="btnGuardar" Content="Guardar" Click="Guardar_Click"/>
